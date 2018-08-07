@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评论效果</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font: normal 12px/1.6em Microsoft YaHei, Tahoma, simsun;
+            color: #666;
+            min-width: 1240px;
+            background: rgb(106, 175, 216);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .clearfloat:after {
+            display: block;
+            clear: both;
+            content: "";
+            visibility: hidden;
+            height: 0
+        }
+
+        .clearfloat {
+            zoom: 1
+        }
+
+        #app {
+            width: 600px;
+            height: 100%;
+            background: #fff;
+            margin: 0 auto;
+        }
+
+        .w_input {
+            width: 560px;
+            height: 100px;
+            margin: 0 auto;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-bottom: 1px #aaa solid;
+        }
+
+        .w_face {
+            float: left;
+            width: 40px;
+            height: 40px;
+        }
+
+        .w_face img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .w_txt {
+            width: 500px;
+            height: 40px;
+            float: right;
+        }
+
+        .w_txt textarea {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            resize: none;
+            font-size: 16px;
+            text-indent: 2em;
+            letter-spacing: 1px;
+        }
+
+        .w_input button {
+            margin-top: 10px;
+            float: right;
+            width: 62px;
+            height: 26px;
+            box-sizing: border-box;
+            background: rgb(255, 192, 159);
+            color: #fff;
+            border: none;
+            outline: none;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .w_input button:hover {
+            background: rgb(241, 129, 69);
+        }
+
+        .w_main {
+            width: 560px;
+            height: auto;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        .w_main ul li {
+            border: 1px #ccc solid;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .w_main ul li .logo {
+            width: 120px;
+            min-height: 200px;
+            float: left;
+            margin-right: 10px;
+            background: rgb(251, 251, 253);
+        }
+
+        .w_main ul li .logo .logo_item {
+            width: 60px;
+            height: 60px;
+            margin: 20px auto;
+        }
+
+        .w_main ul li .logo .logo_item img {
+            width: 60px;
+        }
+
+        .username {
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #2d64b3;
+        }
+
+        .w_main ul li .value {
+            width: 420px;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="clearfloat">
+        <div class="w_input">
+            <div class="w_face">
+                <img v-bind:src=imgSrc alt="头像">
+            </div>
+            <div class="w_txt">
+                <textarea v-model="value"></textarea>
+            </div>
+            <button type="button" v-on:click="submitValue">评论</button>
+        </div>
+        <div class="w_main">
+            <ul>
+                <li class="clearfloat" v-for="(item, index) in userInfo">
+                    <div class="logo">
+                        <div class="logo_item">
+                            <img v-bind:src=item.imgUrl alt="头像">
+                        </div>
+                        <div class="username">
+                            <span>{{item.name}}</span>
+                        </div>
+                    </div>
+                    <div class="value">
+                        <p>{{item.value}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            value: "",
+            name: "刘泽",
+            imgSrc: "https://tva1.sinaimg.cn/crop.0.0.179.179.50/d9e5634djw1east9pi6bej2050050dfw.jpg",
+            userInfo: [
+                {
+                    imgUrl: "https://tva1.sinaimg.cn/crop.0.0.179.179.50/d9e5634djw1east9pi6bej2050050dfw.jpg",
+                    name: "张三",
+                    value: "一点期待，一点忐忑，新的征程，加油！",
+                },
+                {
+                    imgUrl: "https://tva1.sinaimg.cn/crop.0.0.179.179.50/d9e5634djw1east9pi6bej2050050dfw.jpg",
+                    name: "李四",
+                    value: "一点期待，一点忐忑，新的征程，加油！",
+                },
+                {
+                    imgUrl: "https://tva1.sinaimg.cn/crop.0.0.179.179.50/d9e5634djw1east9pi6bej2050050dfw.jpg",
+                    name: "王二",
+                    value: "一点期待，一点忐忑，新的征程，加油！一点期待，一点忐忑，新的征程，加油！一点期待，一点忐忑，新的征程，加油！一点期待，一点忐忑，新的征程，加油！一点期待，一点忐忑，新的征程，加油！一点期待，一点忐忑，新的征程，加油！",
+                },
+                {
+                    imgUrl: "https://tva1.sinaimg.cn/crop.0.0.179.179.50/d9e5634djw1east9pi6bej2050050dfw.jpg",
+                    name: "麻五",
+                    value: "一点期待，一点忐忑，新的征程，加油！",
+                },
+                {
+                    imgUrl: "https://tva1.sinaimg.cn/crop.0.0.179.179.50/d9e5634djw1east9pi6bej2050050dfw.jpg",
+                    name: "赵六",
+                    value: "一点期待，一点忐忑，新的征程，加油！",
+                }
+            ]
+        },
+        methods: {
+            submitValue() {
+                if (this.value.length <= 0) {
+                    alert("请填写评论内容");
+                    return;
+                }
+                var userInfo = {
+                    imgUrl: this.imgSrc,
+                    name: this.name,
+                    value: this.value
+                }
+                this.userInfo.push(userInfo);
+                console.log(this.userInfo);
+            }
+        }
+    });
+</script>
+
+</html>

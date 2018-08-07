@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bootstrap的组件改成vue的组件</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <style>
+        /* div {
+            background-color: red;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script>
+
+    Vue.component('my-button', {
+        props: ['type', "color"],
+        template: `
+            <button  :type=type :class="['btn','btn-' + color]">按钮组件{{ color }}</button>
+        `
+    })
+
+    Vue.component('my-icon', {
+        props: ['name'],
+        template: `
+            <i :class="['glyphicon','glyphicon-' + name]"></i>
+        `
+    })
+
+    Vue.component('my-alert', {
+        props: ['type', 'role'],
+        template: `
+            <div :class="['alert','alert-' + type]" :role=role>{{ type }}</div>
+        `
+    })
+
+    new Vue({
+        el: "#app",
+        template: `
+            <div class="app">
+                <div class="input">
+                    <h3>按钮组件</h3>
+                    <my-button type="button" color="default" />
+                    <my-button type="button" color="primary" />
+                    <my-button type="button" color="success" />
+                    <my-button type="button" color="info" />
+                    <my-button type="button" color="warning" />
+                    <my-button type="button" color="danger" />
+                </div>
+
+                <br />
+
+                <div class="icon">
+                    <h3>图标组件</h3>
+                    <my-icon name="envelope" />
+                    <my-icon name="star" />
+                    <my-icon name="heart" />
+                    <my-icon name="home" />
+                    <my-icon name="trash" />
+                </div>
+
+                <br />
+
+                <div class="alert_div">
+                    <h3>警告框组件</h3>
+                    <my-alert type="success" role="role"/>
+                    <my-alert type="info" role="role"/>
+                    <my-alert type="warning" role="role"/>
+                    <my-alert type="danger" role="role"/>
+                </div>
+        </div>
+        `
+
+    })
+
+</script>
+
+</html>

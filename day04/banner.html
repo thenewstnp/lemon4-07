@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Banner</title>
+    <script src="vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .banner {
+            width: 590px;
+            height: 470px;
+            margin: 0 auto;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .item {
+            font-size: 0;
+        }
+
+        .banner button {
+            position: absolute;
+            top: 50%;
+            z-index: 999;
+            width: 24px;
+            height: 40px;
+            outline: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .banner .prev {
+            left: 0;
+            background: rgba(0, 0, 0, .3) url(public/imgs/icon/prev.png) no-repeat;
+            background-size: 18px 22px;
+            background-position: 1px 8px;
+        }
+
+        .banner .next {
+            right: 0;
+            background: rgba(0, 0, 0, .3) url(public/imgs/icon/next.png) no-repeat;
+            background-size: 18px 22px;
+            background-position: 3px 8px;
+        }
+
+        .banner .prev:hover,
+        .banner .next:hover {
+            background-color: rgba(0, 0, 0, .5);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+
+    <script>
+        Vue.component('Banner', {
+            props: {
+                data: Array
+            },
+            template: `
+                <div class="banner">
+                    <div class="item" v-for="(item, index) in data" v-show="index == bannerIndex">
+                        <a :href="item.linkUrl">
+                            <img :src="item.imgUrl" :alt="item.alt" :title="item.title">
+                        </a>
+                    </div>
+                    <button type="button" class="prev" @click="prev"></button>
+                    <button type="button" class="next" @click="next"></button>
+                </div>
+            `,
+            data() {
+                return {
+                    bannerIndex: 0
+                }
+            },
+            methods: {
+                next() {
+                    this.bannerIndex++;
+                    if (this.bannerIndex >= this.data.length) {
+                        this.bannerIndex = 0;
+                    }
+                },
+                prev() {
+                    this.bannerIndex--;
+                    if (this.bannerIndex < 0) {
+                        this.bannerIndex = this.data.length - 1;
+                    }
+                }
+            },
+        })
+
+        new Vue({
+            el: "#app",
+            template: `
+                <Banner :data=imgs />
+            `,
+            data: {
+                imgs: [],
+            },
+            mounted() {
+                axios.get("http://localhost:8988/get").then((response) => {
+                    return response.data;
+                }).catch((error) => {
+                    console.error(error);
+                    return;
+                }).then((data) => {
+                    // console.log(data.imgs);
+                    for(let key in data) {
+                        // console.log(data[key]);
+                        this.imgs.push(data[key]);
+                    }
+                    // console.log(this.imgs);
+                })
+            },
+        })
+    </script>
+</body>
+
+</html>

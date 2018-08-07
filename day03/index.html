@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>邮箱后缀自动补充的功能</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background: #fff url(https://www.battlenet.com.cn/account/creation/static/images/backgrounds/blizzard-background-1920.3f7pb.jpg) 0 0 no-repeat;
+            color: #fff;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        input {
+            outline: none;
+            box-sizing: border-box;
+            border: none;
+            color: #fff;
+        }
+
+        .app {
+            width: 300px;
+            height: 500px;
+            margin: 50px auto;
+            margin-bottom: 0;
+        }
+
+        .email_value {
+            width: 100%;
+            height: 24px;
+            padding-left: 10px;
+            border: 1px solid rgb(81, 88, 95);
+            background: rgba(6, 15, 25, .8);
+            font-size: 12px;
+        }
+
+        .email_value:hover {
+            border-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    Vue.component('email-input', {
+        template: `
+            <div class="email_input">
+                <input type="text" v-model="value" :placeholder=title class="email_value">
+                <ul v-show="value" class="email_ul">
+                    <li v-for="(item, index) in emailList" v-on:click="setEmail(item)" class="email_lits">
+                        <span class="email_item">{{item}}</span>
+                    </li>
+                </ul>
+            </div>
+        `,
+        data() {
+            return {
+                value: "",
+                title: "邮箱"
+            }
+        },
+        methods: {
+            setEmail(item) {
+                this.value = item;
+            }
+        },
+        computed: {
+            emailList() {
+                if (/@/.test(this.value)) {
+                    return []
+                }
+                return [
+                    this.value + '@qq.com',
+                    this.value + '@163.com',
+                    this.value + '@liuze.org',
+                    this.value + '@thenewstnp.com'
+                ]
+            }
+        }
+    })
+
+    new Vue({
+        el: '#app',
+        template: `
+            <div class="app">
+                <email-input />
+            </div>
+        `,
+        data: {
+
+        }
+    })
+</script>
+
+</html>

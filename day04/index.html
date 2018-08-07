@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Table 组件</title>
+    <script src="vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+
+<script>
+
+    Vue.component('Table', {
+        template: `
+            <table border="1">
+                <thead>
+                    <th v-for="item in colums">{{item.name}}</th>
+                </thead>
+                <tbody>
+                    <tr v-for="item in data">
+                        <td v-for="td in colums">{{item[td.key]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `,
+        data() {
+            return {
+                colums: [
+                    {
+                        name: "id",
+                        key: "id"
+                    },
+                    {
+                        name: "用户名",
+                        key: "username"
+                    },
+                    {
+                        name: "年龄",
+                        key: "age"
+                    },
+                    {
+                        name: "邮箱",
+                        key: "email"
+                    }
+                ],
+                data: [
+                    {
+                        id: "001",
+                        username: "张珊",
+                        age: 10,
+                        email: "1@qq.com"
+                    },
+                    {
+                        id: "002",
+                        username: "李四",
+                        age: 20,
+                        email: "1@qq.com"
+                    }
+                ]
+            }
+        }
+    })
+
+    new Vue({
+        el: "#app",
+        template: `
+		<Table />
+	`,
+        data: {
+
+        }
+    })
+</script>
+
+</html>
